@@ -19,27 +19,32 @@ class WhatsAppNotificationListener : NotificationListenerService() {
     private val scope = CoroutineScope(job + Dispatchers.IO)
 
     // WhatsApp package names (consumer + business)
-    private val waPackages = setOf("com.whatsapp", "com.whatsapp.w4b")
-
+    // WhatsApp + Telegram package names
+    private val supportedPackages = setOf(
+        "com.whatsapp",
+        "com.whatsapp.w4b",
+        "org.telegram.messenger",      // Telegram
+        "org.telegram.messenger.web"   // Telegram web build (иногда встречается)
+        // Если будешь поддерживать forks: "org.thunderdog.challegram" (Telegram X) и т.п.
+    )
 
     private val recent = ConcurrentHashMap<String, Long>()
     private val dedupeWindowMs = 60_000L // 60 seconds, for safety
 
     override fun onNotificationPosted(sbn: StatusBarNotification) {
         val pkg = sbn.packageName ?: return
-        if (pkg !in waPackages) return
+        if (pkg !in supportedPackages) return
+
+        val source = detectSource(pkg) ?: return
 
         val extras = sbn.notification.extras
-        val title = extras.getCharSequence("android.title")?.toString().orEmpty()
-        val extracted = extractWhatsAppMessage(extras)
+        val extracted = extractMessagingStyle(extras)
 
+        val title = extracted.title
         val content = extracted.text
 
         if (title.isBlank() && content.isBlank()) return
-        if (extracted.isSummaryOnly) return  // skip "X new messages" noise
-
-        // Filter out empty or ongoing system-like notifications
-        if (title.isBlank() && content.isBlank()) return
+        if (extracted.isSummaryOnly) return
 
         scope.launch {
             val store = SettingsStore(applicationContext)
@@ -49,7 +54,7 @@ class WhatsAppNotificationListener : NotificationListenerService() {
             val targetNumber = store.targetNumberFlow.first()
             if (targetNumber.isBlank()) return@launch
 
-            val normalized = normalizeMessage(title, content)
+            val normalized = normalizeMessage(source.prefix, title, content)
             if (normalized.isBlank()) return@launch
 
             val key = messageKey(normalized)
@@ -59,7 +64,16 @@ class WhatsAppNotificationListener : NotificationListenerService() {
         }
     }
 
+    private enum class Source(val prefix: String) {
+        WA("WA"),
+        TG("TG")
+    }
 
+    private fun detectSource(packageName: String): Source? = when (packageName) {
+        "com.whatsapp", "com.whatsapp.w4b" -> Source.WA
+        "org.telegram.messenger", "org.telegram.messenger.web" -> Source.TG
+        else -> null
+    }
     // English comments as requested
     private fun buildDedupeKey(sbn: StatusBarNotification, message: String): String {
         // sbn.key is stable for the notification instance; message guards against updates
@@ -112,16 +126,14 @@ class WhatsAppNotificationListener : NotificationListenerService() {
         }
     }
 
-    private fun normalizeMessage(title: String, content: String): String {
-        // English comments as requested
-        // Avoid duplicating title when content already includes the same sender/chat label.
+    private fun normalizeMessage(prefix: String, title: String, content: String): String {
         val t = title.trim()
         val c = content.trim()
 
         val combined = when {
             t.isBlank() -> c
             c.isBlank() -> t
-            c.startsWith(t) -> c // e.g. "+49..: Ok" already contains title/sender
+            c.startsWith(t) -> c
             c.startsWith("$t:") -> c
             c.startsWith("$t —") -> c
             else -> "$t — $c"
@@ -134,9 +146,9 @@ class WhatsAppNotificationListener : NotificationListenerService() {
                 lower.contains("video call")
 
         return if (isCall) {
-            "WA: входящий звонок — $combined"
+            "$prefix: входящий звонок — $combined"
         } else {
-            "WA: $combined"
+            "$prefix: $combined"
         }
     }
 
@@ -147,13 +159,12 @@ class WhatsAppNotificationListener : NotificationListenerService() {
         val isSummaryOnly: Boolean
     )
 
-    private fun extractWhatsAppMessage(extras: Bundle): ExtractedMessage {
+    private fun extractMessagingStyle(extras: Bundle): ExtractedMessage {
         val title = extras.getCharSequence(Notification.EXTRA_TITLE)?.toString().orEmpty()
 
         // 1) Try MessagingStyle payload: android.messages
         val messages = extras.getParcelableArray(Notification.EXTRA_MESSAGES)
         if (!messages.isNullOrEmpty()) {
-            // Each item is a Bundle with keys like "text", "sender", "time"
             val last = messages.lastOrNull() as? Bundle
             val msgText = last?.getCharSequence("text")?.toString().orEmpty()
             val sender = last?.getCharSequence("sender")?.toString().orEmpty()
@@ -183,7 +194,7 @@ class WhatsAppNotificationListener : NotificationListenerService() {
             else -> ""
         }
 
-        // 3) Detect summary like "4 new messages" / "4 новых сообщений"
+        // 3) Summary detection
         val isSummary = isLikelySummary(content)
 
         return ExtractedMessage(

@@ -31,9 +31,33 @@ class WhatsAppNotificationListener : NotificationListenerService() {
     private val recent = ConcurrentHashMap<String, Long>()
     private val dedupeWindowMs = 60_000L // 60 seconds, for safety
 
+    // English comments as requested
+    private fun semanticKey(sourcePrefix: String, title: String, content: String): String {
+        val t = title.trim()
+        var c = content.trim()
+
+        // If content already contains "sender: text" and sender == title, remove title from key
+        if (t.isNotBlank() && (c.startsWith(t) || c.startsWith("$t:"))) {
+            // Keep only the message part after "title:"
+            val idx = c.indexOf(':')
+            if (idx in 0 until c.lastIndex) c = c.substring(idx + 1).trim()
+        }
+
+        // Normalize whitespace
+        c = c.replace(Regex("\\s+"), " ")
+
+        // Key contains source + message-only content
+        return "$sourcePrefix::$c"
+    }
+
     override fun onNotificationPosted(sbn: StatusBarNotification) {
         val pkg = sbn.packageName ?: return
         if (pkg !in supportedPackages) return
+
+
+// Skip group summary notifications (WhatsApp often posts both: summary + actual message)
+        val n = sbn.notification
+        if ((n.flags and Notification.FLAG_GROUP_SUMMARY) != 0) return
 
         val source = detectSource(pkg) ?: return
 
@@ -57,7 +81,7 @@ class WhatsAppNotificationListener : NotificationListenerService() {
             val normalized = normalizeMessage(source.prefix, title, content)
             if (normalized.isBlank()) return@launch
 
-            val key = messageKey(normalized)
+            val key = semanticKey(source.prefix, title, content)
             if (!shouldSendNow(key)) return@launch
 
             SmsSender.sendSms(applicationContext, targetNumber, normalized)

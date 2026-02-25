@@ -10,6 +10,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 
+
 @Composable
 fun AboutScreen(nav: NavController) {
     val ctx = LocalContext.current
@@ -21,15 +22,16 @@ fun AboutScreen(nav: NavController) {
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         Text("О приложении", style = MaterialTheme.typography.headlineSmall)
-        Text("Версия: 0.1.0")
+        val packageInfo = ctx.packageManager.getPackageInfo(ctx.packageName, 0)
+        Text("Версия: ${packageInfo.versionName}")
 
         OutlinedButton(onClick = {
-            ctx.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/your-org/nosignalclub")))
+            ctx.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/pushkadev/NoSignalClub")))
         }) { Text("GitHub репозиторий") }
 
         OutlinedButton(onClick = {
-            ctx.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/your-org/nosignalclub/issues")))
-        }) { Text("Сообщить об ошибке") }
+            ctx.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/pushkadev/NoSignalClub/issues")))
+        }) { Text("Сообщить об ошибке или предложить изменения") }
 
         OutlinedButton(onClick = { nav.popBackStack() }) { Text("Назад") }
     }

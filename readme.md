@@ -1,136 +1,140 @@
-# WhatsApp & Telegram SMS Forwarder (Android)
+# 📟 NoSignalClub
 
-Android-приложение для автоматической пересылки **входящих сообщений WhatsApp и Telegram** на указанный номер телефона в виде **SMS**.
+> Forward WhatsApp & Telegram messages as SMS to any phone number — fully offline, no servers, open source.
 
-Приложение работает полностью **автономно**, без подключения к серверам. Вся обработка сообщений выполняется **локально на устройстве**.
-
-> ⚠️ В текущей версии поддерживается только пересылка входящих текстовых сообщений.
-
----
-
-## 🚀 Возможности
-
-- 📥 Перехват входящих сообщений WhatsApp и Telegram через системные уведомления
-- 📤 Автоматическая пересылка текста сообщения на другой номер в виде SMS
-- 🔐 Полностью офлайн-работа (без серверов и внешних API)
-- 🧩 Открытый исходный код
-- 🛠 Возможность самостоятельной сборки APK через Android Studio
+![Platform](https://img.shields.io/badge/platform-Android-3DDC84?style=flat-square&logo=android&logoColor=white)
+![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)
+![Language](https://img.shields.io/badge/Kotlin-Compose-7F52FF?style=flat-square&logo=kotlin&logoColor=white)
+![Offline](https://img.shields.io/badge/offline-100%25-00CC6A?style=flat-square)
 
 ---
 
-## 💡 Сценарии использования
+## What it does
 
-### 1. Информационный детокс
+NoSignalClub listens for incoming WhatsApp and Telegram notifications and automatically forwards the message text as an SMS to a phone number you configure. Everything runs locally on your device — no servers, no accounts, no internet permission.
 
-Пользователь ходит с кнопочным телефоном, но хочет оставаться в курсе сообщений в WhatsApp и Telegram.  
-Android-смартфон остаётся дома, принимает сообщения и пересылает их в виде SMS на основной телефон.
-
----
-
-### 2. Интернет доступен только в определённом месте
-
-Например, интернет работает только дома (через VPN или Wi-Fi).  
-Приложение принимает сообщения WhatsApp и Telegram при наличии интернета и пересылает их на номер, который находится вне зоны 4G.
-
-Это может быть актуально при временных ограничениях мобильного интернета.
+> ⚠️ Current version supports text messages only. Media forwarding is not supported.
 
 ---
 
-### 3. Ограничения на рабочем месте
+## Use Cases
 
-На предприятии запрещено использование мессенджеров, но SMS разрешены.  
-Приложение позволяет получать уведомления о сообщениях WhatsApp и Telegram в виде обычных SMS.
+**📵 Digital Detox**
+Leave your Android at home and walk around with a Nokia or any basic phone. NoSignalClub forwards incoming WhatsApp and Telegram messages to your feature phone as SMS — you stay reachable without carrying the internet in your pocket.
 
----
+**📶 Internet only available in specific locations**
+Your internet works only at home (via Wi-Fi or VPN). The app receives messages when connected and forwards them as SMS to a number that's outside 4G coverage. Useful anywhere mobile data is restricted or unavailable.
 
-## 🏗 Архитектура
-
-- Используется `NotificationListenerService` для отслеживания уведомлений WhatsApp и Telegram
-- Используется стандартный Android `SmsManager` для отправки SMS
-- Нет серверной части
-- Нет передачи данных третьим лицам
-- Нет облачной синхронизации
-
-Всё работает локально на устройстве пользователя.
+**🏢 Workplace restrictions**
+Messengers are banned at your workplace but SMS is allowed. NoSignalClub lets you receive WhatsApp and Telegram message notifications as regular text messages.
 
 ---
 
-## 🔐 Приватность
+## Features
 
-- Приложение не отправляет данные на внешние серверы
-- Не использует аналитику и трекеры
-- Не хранит сообщения вне устройства
-- Исходный код открыт и доступен для проверки
+- 📥 Intercepts incoming WhatsApp and Telegram notifications via `NotificationListenerService`
+- 📤 Forwards message text to a configured number as SMS via Android `SmsManager`
+- 🔐 100% offline — no backend, no external APIs, no third-party data sharing
+- 🧩 Fully open source — read, audit, fork, or contribute
+- 🛠 Build your own APK via Android Studio
 
 ---
-## Установка без сборки
 
-1. Скачать APK из релизов из папки releases
-2. установить на Android-устройство (возможно, потребуется разрешить установку из неизвестных источников)
-3. открыть приложение и следовать инструкциям для настройки пересылки сообщений
+## Install
 
-## 📦 Сборка проекта
+**Option A — Download APK**
+1. Download the latest APK from the [Releases](https://github.com/pushkadev/NoSignalClub/releases) page
+2. Install on your Android device (you may need to allow installation from unknown sources)
+3. Open the app and follow the setup instructions
 
-### 1. Клонирование репозитория
-
+**Option B — Build from source**
 ```bash
 git clone git@github.com:pushkadev/NoSignalClub.git
 ```
+1. Open the project in Android Studio: `File → Open → select project folder`
+2. Build APK: `Build → Build APK(s)`
+3. Or run directly on a connected device via `Run`
 
-### Открыть проект в Android Studio
+---
 
-File → Open → выбрать папку проекта
+## Setup
 
-### Сборка APK
-Build → Build APK(s)
+1. Enter the target SMS number in **Settings** (e.g. `+4915...`)
+2. Tap **Notification Access** → enable NoSignalClub in the system list
+3. *(Optional)* Disable battery optimization for the app to keep the service alive
+4. Tap **Start** on the home screen
 
-или запуск на подключённом устройстве через Run.
+---
 
+## Permissions
 
-## 📱 Требуемые разрешения
+| Permission | Purpose |
+|---|---|
+| `BIND_NOTIFICATION_LISTENER_SERVICE` | Read incoming WhatsApp & Telegram notifications |
+| `SEND_SMS` | Forward messages as SMS via your SIM card |
+| Phone state *(if required)* | Detect call state to pause forwarding during calls |
 
-Доступ к уведомлениям (Notification Access)
+All permissions are requested manually from the user. No permission is used for anything beyond its stated purpose.
 
-Разрешение на отправку SMS
+---
 
-(При необходимости) доступ к состоянию телефона
+## Architecture
 
-Все разрешения запрашиваются у пользователя вручную.
+- **`NotificationListenerService`** — monitors notifications from WhatsApp and Telegram
+- **`SmsManager`** — sends SMS using the device's own SIM card
+- **`DataStore`** — stores only two values locally: target number and enabled/disabled state
+- No backend, no cloud sync, no third-party SDKs
 
-## 🚧 Ограничения
+---
 
-Работает только при включённых уведомлениях WhatsApp
+## Privacy
 
-Поддерживаются только текстовые сообщения
+- No data is sent to external servers
+- No analytics, no trackers, no crash reporters
+- Messages are never stored outside the device
+- Source code is open and available for review
 
-Не поддерживается пересылка медиа-файлов
+Full privacy policy: [pushkadev.github.io/NoSignalClub/privacy-policy.html](https://pushkadev.github.io/NoSignalClub/privacy-policy.html)
 
-Работает только на Android
+---
 
-## 🛣 Roadmap (планы развития)
-Напишите что вам нужно прямо в Issue, чтобы я мог приоритизировать задачи.
+## Limitations
 
-## Поддержка
+- Works only when WhatsApp / Telegram notifications are enabled
+- Text messages only — no media forwarding
+- Android only
+- The app must be running in the background (disable battery optimization for best results)
 
-🤝 Участие в проекте
+---
 
-Любой желающий может:
+## Roadmap
 
-Проверить исходный код
+Have a feature request or found a bug? Open an [Issue](https://github.com/pushkadev/NoSignalClub/issues) — your feedback directly shapes what gets built next.
 
-Собрать собственный APK
+---
 
-Создать Issue с вопросом или предложением
+## Languages
 
-Отправить Pull Request
+The app is localized in 7 languages: 🇬🇧 English · 🇷🇺 Russian · 🇺🇦 Ukrainian · 🇩🇪 German · 🇫🇷 French · 🇪🇸 Spanish · 🇮🇹 Italian
 
-## ⚠️ Отказ от ответственности
+---
 
-Пользователь несёт ответственность за соблюдение законодательства своей страны и правил использования мессенджеров.
+## Contributing
 
-Автор не несёт ответственности за возможные последствия использования приложения ни при каких условиях.
+Everyone is welcome to:
+- Read and audit the source code
+- Build their own APK
+- Open an Issue with a question or suggestion
+- Submit a Pull Request
 
-## 📄 Лицензия
+---
 
-Проект распространяется под лицензией MIT.
-См. файл LICENSE.
+## Disclaimer
+
+The user is solely responsible for compliance with the laws of their country and the terms of service of the respective messengers. The author assumes no liability for any consequences of using this application.
+
+---
+
+## License
+
+MIT © 2026 [pushkadev](https://github.com/pushkadev)

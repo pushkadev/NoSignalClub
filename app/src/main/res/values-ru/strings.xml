@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">NoSignalClub</string>
+    <string name="app_subtitle">WhatsApp → SMS шлюз</string>
+
+    <string name="status_service">СТАТУС СЕРВИСА</string>
+    <string name="status_active">АКТИВНО</string>
+    <string name="status_stopped">ОСТАНОВЛЕНО</string>
+    <string name="number_not_set">Номер не задан</string>
+    <string name="btn_start">Запустить</string>
+    <string name="btn_stop">Стоп</string>
+    <string name="section_system_access">СИСТЕМНЫЕ ДОСТУПЫ</string>
+    <string name="access_notifications_title">Доступ к уведомлениям</string>
+    <string name="access_notifications_subtitle">Обязательно для работы</string>
+    <string name="access_battery_title">Оптимизация батареи</string>
+    <string name="access_battery_subtitle">Рекомендуется</string>
+    <string name="btn_about">О приложении</string>
+
+    <string name="settings_title">Настройки</string>
+    <string name="settings_subtitle">Конфигурация шлюза</string>
+    <string name="section_phone_number">НОМЕР ТЕЛЕФОНА</string>
+    <string name="number_placeholder">+49…</string>
+    <string name="number_hint">SMS будет отправлено на этот номер при получении WhatsApp уведомления</string>
+    <string name="btn_save">Сохранить</string>
+    <string name="btn_saved">Сохранено</string>
+
+    <string name="about_title">О приложении</string>
+    <string name="section_resources">РЕСУРСЫ</string>
+    <string name="github_repo_title">GitHub репозиторий</string>
+    <string name="github_repo_subtitle">pushkadev/NoSignalClub</string>
+    <string name="github_issues_title">Сообщить об ошибке</string>
+    <string name="github_issues_subtitle">Issues на GitHub</string>
+</resources>

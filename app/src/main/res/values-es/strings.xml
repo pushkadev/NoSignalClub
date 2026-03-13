@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">NoSignalClub</string>
+    <string name="app_subtitle">WhatsApp → Pasarela SMS</string>
+
+    <string name="status_service">ESTADO DEL SERVICIO</string>
+    <string name="status_active">ACTIVO</string>
+    <string name="status_stopped">DETENIDO</string>
+    <string name="number_not_set">Número no configurado</string>
+    <string name="btn_start">Iniciar</string>
+    <string name="btn_stop">Detener</string>
+    <string name="section_system_access">ACCESO AL SISTEMA</string>
+    <string name="access_notifications_title">Acceso a notificaciones</string>
+    <string name="access_notifications_subtitle">Necesario para funcionar</string>
+    <string name="access_battery_title">Optimización de batería</string>
+    <string name="access_battery_subtitle">Recomendado</string>
+    <string name="btn_about">Acerca de</string>
+
+    <string name="settings_title">Ajustes</string>
+    <string name="settings_subtitle">Configuración de la pasarela</string>
+    <string name="section_phone_number">NÚMERO DE TELÉFONO</string>
+    <string name="number_placeholder">+34…</string>
+    <string name="number_hint">El SMS se enviará a este número al recibir una notificación de WhatsApp</string>
+    <string name="btn_save">Guardar</string>
+    <string name="btn_saved">Guardado</string>
+
+    <string name="about_title">Acerca de</string>
+    <string name="section_resources">RECURSOS</string>
+    <string name="github_repo_title">Repositorio GitHub</string>
+    <string name="github_repo_subtitle">pushkadev/NoSignalClub</string>
+    <string name="github_issues_title">Reportar un error</string>
+    <string name="github_issues_subtitle">Issues en GitHub</string>
+</resources>

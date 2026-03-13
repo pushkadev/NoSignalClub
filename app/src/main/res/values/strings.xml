@@ -1,3 +1,35 @@
 <resources>
     <string name="app_name">NoSignalClub</string>
+    <string name="app_subtitle">WhatsApp → SMS Gateway</string>
+
+    <!-- HomeScreen -->
+    <string name="status_service">SERVICE STATUS</string>
+    <string name="status_active">ACTIVE</string>
+    <string name="status_stopped">STOPPED</string>
+    <string name="number_not_set">Number not set</string>
+    <string name="btn_start">Start</string>
+    <string name="btn_stop">Stop</string>
+    <string name="section_system_access">SYSTEM ACCESS</string>
+    <string name="access_notifications_title">Notification Access</string>
+    <string name="access_notifications_subtitle">Required to work</string>
+    <string name="access_battery_title">Battery Optimization</string>
+    <string name="access_battery_subtitle">Recommended</string>
+    <string name="btn_about">About</string>
+
+    <!-- SettingsScreen -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_subtitle">Gateway Configuration</string>
+    <string name="section_phone_number">PHONE NUMBER</string>
+    <string name="number_placeholder">+49…</string>
+    <string name="number_hint">SMS will be sent to this number when a WhatsApp notification is received</string>
+    <string name="btn_save">Save</string>
+    <string name="btn_saved">Saved</string>
+
+    <!-- AboutScreen -->
+    <string name="about_title">About</string>
+    <string name="section_resources">RESOURCES</string>
+    <string name="github_repo_title">GitHub Repository</string>
+    <string name="github_repo_subtitle">pushkadev/NoSignalClub</string>
+    <string name="github_issues_title">Report a Bug</string>
+    <string name="github_issues_subtitle">Issues on GitHub</string>
 </resources>

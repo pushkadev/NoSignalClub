@@ -27,11 +27,13 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.smsgateway24.nosignalclub.R
 import com.smsgateway24.nosignalclub.data.SettingsStore
 import com.smsgateway24.nosignalclub.ui.Screen
 import com.smsgateway24.nosignalclub.ui.theme.*
@@ -50,7 +52,6 @@ fun HomeScreen(nav: NavController) {
         ActivityResultContracts.RequestPermission()
     ) { }
 
-    // Pulse animation for active indicator
     val infiniteTransition = rememberInfiniteTransition(label = "pulse")
     val pulseAlpha by infiniteTransition.animateFloat(
         initialValue = 0.3f, targetValue = 1f,
@@ -70,12 +71,7 @@ fun HomeScreen(nav: NavController) {
             .fillMaxSize()
             .background(DeepBlack)
     ) {
-        // Background grid lines for depth
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .drawBehind { drawGrid(this) }
-        )
+        Box(modifier = Modifier.fillMaxSize().drawBehind { drawGrid(this) })
 
         Column(
             modifier = Modifier
@@ -86,19 +82,12 @@ fun HomeScreen(nav: NavController) {
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             // Header
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
-            ) {
+            Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
                 Box(
                     modifier = Modifier
                         .size(42.dp)
                         .clip(RoundedCornerShape(10.dp))
-                        .background(
-                            Brush.linearGradient(
-                                listOf(NeonGreen.copy(alpha = 0.2f), NeonGreenDim.copy(alpha = 0.05f))
-                            )
-                        )
+                        .background(Brush.linearGradient(listOf(NeonGreen.copy(alpha = 0.2f), NeonGreenDim.copy(alpha = 0.05f))))
                         .border(1.dp, NeonGreen.copy(alpha = 0.4f), RoundedCornerShape(10.dp)),
                     contentAlignment = Alignment.Center
                 ) {
@@ -106,22 +95,10 @@ fun HomeScreen(nav: NavController) {
                 }
                 Spacer(Modifier.width(12.dp))
                 Column {
-                    Text(
-                        "NoSignalClub",
-                        color = TextPrimary,
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold,
-                        letterSpacing = 0.5.sp
-                    )
-                    Text(
-                        "WhatsApp & Telegram → SMS Gateway",
-                        color = TextSecondary,
-                        fontSize = 11.sp,
-                        letterSpacing = 1.sp
-                    )
+                    Text("NoSignalClub", color = TextPrimary, fontSize = 20.sp, fontWeight = FontWeight.Bold, letterSpacing = 0.5.sp)
+                    Text(stringResource(R.string.app_subtitle), color = TextSecondary, fontSize = 11.sp, letterSpacing = 1.sp)
                 }
                 Spacer(Modifier.weight(1f))
-                // Settings icon
                 IconButton(onClick = { nav.navigate(Screen.Settings.route) }) {
                     Icon(Icons.Default.Settings, contentDescription = "Settings", tint = TextSecondary)
                 }
@@ -135,11 +112,7 @@ fun HomeScreen(nav: NavController) {
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(16.dp))
                     .background(SurfaceCard)
-                    .border(
-                        width = 1.dp,
-                        color = if (enabled) NeonGreen.copy(alpha = 0.25f) else BorderSubtle,
-                        shape = RoundedCornerShape(16.dp)
-                    )
+                    .border(width = 1.dp, color = if (enabled) NeonGreen.copy(alpha = 0.25f) else BorderSubtle, shape = RoundedCornerShape(16.dp))
                     .padding(20.dp)
             ) {
                 Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
@@ -148,51 +121,29 @@ fun HomeScreen(nav: NavController) {
                         horizontalArrangement = Arrangement.SpaceBetween,
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        Text(
-                            "СТАТУС СЕРВИСА",
-                            color = TextMuted,
-                            fontSize = 10.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            letterSpacing = 2.sp
-                        )
+                        Text(stringResource(R.string.status_service), color = TextMuted, fontSize = 10.sp, fontWeight = FontWeight.SemiBold, letterSpacing = 2.sp)
                         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                            Box(
-                                modifier = Modifier
-                                    .size(8.dp)
-                                    .clip(CircleShape)
-                                    .background(statusColor.copy(alpha = if (enabled) pulseAlpha else 0.4f))
-                            )
+                            Box(modifier = Modifier.size(8.dp).clip(CircleShape).background(statusColor.copy(alpha = if (enabled) pulseAlpha else 0.4f)))
                             Text(
-                                if (enabled) "АКТИВНО" else "ОСТАНОВЛЕНО",
-                                color = statusColor,
-                                fontSize = 11.sp,
-                                fontWeight = FontWeight.Bold,
-                                letterSpacing = 1.sp
+                                stringResource(if (enabled) R.string.status_active else R.string.status_stopped),
+                                color = statusColor, fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.sp
                             )
                         }
                     }
 
-                    // Number display
                     Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clip(RoundedCornerShape(10.dp))
-                            .background(SurfaceDark)
-                            .border(1.dp, BorderSubtle, RoundedCornerShape(10.dp))
-                            .padding(horizontal = 16.dp, vertical = 12.dp)
+                        modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(10.dp)).background(SurfaceDark).border(1.dp, BorderSubtle, RoundedCornerShape(10.dp)).padding(horizontal = 16.dp, vertical = 12.dp)
                     ) {
                         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                             Icon(Icons.Default.Phone, contentDescription = null, tint = TextSecondary, modifier = Modifier.size(16.dp))
                             Text(
-                                if (targetNumber.isBlank()) "Номер не задан" else targetNumber,
+                                if (targetNumber.isBlank()) stringResource(R.string.number_not_set) else targetNumber,
                                 color = if (targetNumber.isBlank()) TextMuted else TextPrimary,
-                                fontSize = 14.sp,
-                                fontFamily = FontFamily.Monospace
+                                fontSize = 14.sp, fontFamily = FontFamily.Monospace
                             )
                         }
                     }
 
-                    // Action buttons
                     Row(horizontalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier.fillMaxWidth()) {
                         Button(
                             onClick = {
@@ -202,16 +153,11 @@ fun HomeScreen(nav: NavController) {
                             enabled = !enabled,
                             modifier = Modifier.weight(1f).height(46.dp),
                             shape = RoundedCornerShape(10.dp),
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = NeonGreen,
-                                contentColor = DeepBlack,
-                                disabledContainerColor = BorderSubtle,
-                                disabledContentColor = TextMuted
-                            )
+                            colors = ButtonDefaults.buttonColors(containerColor = NeonGreen, contentColor = DeepBlack, disabledContainerColor = BorderSubtle, disabledContentColor = TextMuted)
                         ) {
                             Icon(Icons.Default.PlayArrow, contentDescription = null, modifier = Modifier.size(16.dp))
                             Spacer(Modifier.width(6.dp))
-                            Text("Запустить", fontWeight = FontWeight.Bold, fontSize = 13.sp)
+                            Text(stringResource(R.string.btn_start), fontWeight = FontWeight.Bold, fontSize = 13.sp)
                         }
 
                         OutlinedButton(
@@ -219,98 +165,55 @@ fun HomeScreen(nav: NavController) {
                             enabled = enabled,
                             modifier = Modifier.weight(1f).height(46.dp),
                             shape = RoundedCornerShape(10.dp),
-                            border = ButtonDefaults.outlinedButtonBorder.copy(
-                                brush = Brush.linearGradient(
-                                    if (enabled) listOf(DangerRed.copy(alpha = 0.6f), DangerRed.copy(alpha = 0.3f))
-                                    else listOf(BorderSubtle, BorderSubtle)
-                                )
-                            ),
-                            colors = ButtonDefaults.outlinedButtonColors(
-                                contentColor = DangerRed,
-                                disabledContentColor = TextMuted
-                            )
+                            border = ButtonDefaults.outlinedButtonBorder.copy(brush = Brush.linearGradient(if (enabled) listOf(DangerRed.copy(alpha = 0.6f), DangerRed.copy(alpha = 0.3f)) else listOf(BorderSubtle, BorderSubtle))),
+                            colors = ButtonDefaults.outlinedButtonColors(contentColor = DangerRed, disabledContentColor = TextMuted)
                         ) {
                             Icon(Icons.Default.Stop, contentDescription = null, modifier = Modifier.size(16.dp))
                             Spacer(Modifier.width(6.dp))
-                            Text("Стоп", fontWeight = FontWeight.SemiBold, fontSize = 13.sp)
+                            Text(stringResource(R.string.btn_stop), fontWeight = FontWeight.SemiBold, fontSize = 13.sp)
                         }
                     }
                 }
             }
 
-            // System access section
-            Text(
-                "СИСТЕМНЫЕ ДОСТУПЫ",
-                color = TextMuted,
-                fontSize = 10.sp,
-                fontWeight = FontWeight.SemiBold,
-                letterSpacing = 2.sp,
-                modifier = Modifier.padding(top = 4.dp)
-            )
+            Text(stringResource(R.string.section_system_access), color = TextMuted, fontSize = 10.sp, fontWeight = FontWeight.SemiBold, letterSpacing = 2.sp, modifier = Modifier.padding(top = 4.dp))
 
             AccessRow(
                 icon = Icons.Default.Notifications,
-                title = "Доступ к уведомлениям",
-                subtitle = "Обязательно для работы",
+                title = stringResource(R.string.access_notifications_title),
+                subtitle = stringResource(R.string.access_notifications_subtitle),
                 onClick = { ctx.startActivity(Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS)) }
             )
 
             AccessRow(
                 icon = Icons.Default.BatteryChargingFull,
-                title = "Оптимизация батареи",
-                subtitle = "Рекомендуется",
+                title = stringResource(R.string.access_battery_title),
+                subtitle = stringResource(R.string.access_battery_subtitle),
                 onClick = { ctx.startActivity(Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS)) }
             )
 
-            // About button
             Spacer(Modifier.height(4.dp))
             OutlinedButton(
                 onClick = { nav.navigate(Screen.About.route) },
                 modifier = Modifier.fillMaxWidth().height(44.dp),
                 shape = RoundedCornerShape(10.dp),
-                border = ButtonDefaults.outlinedButtonBorder.copy(
-                    brush = Brush.linearGradient(listOf(BorderSubtle, BorderSubtle))
-                ),
+                border = ButtonDefaults.outlinedButtonBorder.copy(brush = Brush.linearGradient(listOf(BorderSubtle, BorderSubtle))),
                 colors = ButtonDefaults.outlinedButtonColors(contentColor = TextSecondary)
             ) {
                 Icon(Icons.Default.Info, contentDescription = null, modifier = Modifier.size(15.dp))
                 Spacer(Modifier.width(8.dp))
-                Text("О приложении", fontSize = 13.sp)
+                Text(stringResource(R.string.btn_about), fontSize = 13.sp)
             }
         }
     }
 }
 
 @Composable
-private fun AccessRow(
-    icon: androidx.compose.ui.graphics.vector.ImageVector,
-    title: String,
-    subtitle: String,
-    onClick: () -> Unit
-) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(12.dp))
-            .background(SurfaceCard)
-            .border(1.dp, BorderSubtle, RoundedCornerShape(12.dp))
-    ) {
-        TextButton(
-            onClick = onClick,
-            modifier = Modifier.fillMaxWidth().padding(4.dp),
-            shape = RoundedCornerShape(10.dp),
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Box(
-                    modifier = Modifier
-                        .size(36.dp)
-                        .clip(RoundedCornerShape(8.dp))
-                        .background(SurfaceDark),
-                    contentAlignment = Alignment.Center
-                ) {
+private fun AccessRow(icon: androidx.compose.ui.graphics.vector.ImageVector, title: String, subtitle: String, onClick: () -> Unit) {
+    Box(modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(12.dp)).background(SurfaceCard).border(1.dp, BorderSubtle, RoundedCornerShape(12.dp))) {
+        TextButton(onClick = onClick, modifier = Modifier.fillMaxWidth().padding(4.dp), shape = RoundedCornerShape(10.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
+                Box(modifier = Modifier.size(36.dp).clip(RoundedCornerShape(8.dp)).background(SurfaceDark), contentAlignment = Alignment.Center) {
                     Icon(icon, contentDescription = null, tint = NeonGreen, modifier = Modifier.size(18.dp))
                 }
                 Spacer(Modifier.width(12.dp))
@@ -328,13 +231,7 @@ private fun drawGrid(scope: DrawScope) {
     val step = 48.dp.value * scope.density
     val color = Color(0xFF0D1A24)
     var x = 0f
-    while (x < scope.size.width) {
-        scope.drawLine(color, Offset(x, 0f), Offset(x, scope.size.height), strokeWidth = 1f)
-        x += step
-    }
+    while (x < scope.size.width) { scope.drawLine(color, Offset(x, 0f), Offset(x, scope.size.height), strokeWidth = 1f); x += step }
     var y = 0f
-    while (y < scope.size.height) {
-        scope.drawLine(color, Offset(0f, y), Offset(scope.size.width, y), strokeWidth = 1f)
-        y += step
-    }
+    while (y < scope.size.height) { scope.drawLine(color, Offset(0f, y), Offset(scope.size.width, y), strokeWidth = 1f); y += step }
 }

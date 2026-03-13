@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">NoSignalClub</string>
-    <string name="app_subtitle">WhatsApp → SMS шлюз</string>
+    <string name="app_subtitle">WhatsApp|Telegram → SMS шлюз</string>
 
     <string name="status_service">СТАТУС СЕРВИСА</string>
     <string name="status_active">АКТИВНО</string>
@@ -19,7 +19,7 @@
     <string name="settings_subtitle">Конфигурация шлюза</string>
     <string name="section_phone_number">НОМЕР ТЕЛЕФОНА</string>
     <string name="number_placeholder">+49…</string>
-    <string name="number_hint">SMS будет отправлено на этот номер при получении WhatsApp уведомления</string>
+    <string name="number_hint">SMS будет отправлено на этот номер при получении WhatsApp|Telegram уведомления</string>
     <string name="btn_save">Сохранить</string>
     <string name="btn_saved">Сохранено</string>
 

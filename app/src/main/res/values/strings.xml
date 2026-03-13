@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">NoSignalClub</string>
-    <string name="app_subtitle">WhatsApp → SMS Gateway</string>
+    <string name="app_subtitle">WhatsApp|Telegram → SMS Gateway</string>
 
     <!-- HomeScreen -->
     <string name="status_service">SERVICE STATUS</string>
@@ -21,7 +21,7 @@
     <string name="settings_subtitle">Gateway Configuration</string>
     <string name="section_phone_number">PHONE NUMBER</string>
     <string name="number_placeholder">+49…</string>
-    <string name="number_hint">SMS will be sent to this number when a WhatsApp notification is received</string>
+    <string name="number_hint">SMS will be sent to this number when a WhatsApp|Telegram notification is received</string>
     <string name="btn_save">Save</string>
     <string name="btn_saved">Saved</string>
 

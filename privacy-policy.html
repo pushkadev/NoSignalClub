@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Privacy Policy — NoSignalClub</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg:        #050A0E;
+      --surface:   #0D1519;
+      --card:      #111D24;
+      --elevated:  #172530;
+      --border:    #1E3040;
+      --green:     #00FF88;
+      --green-dim: #00CC6A;
+      --green-muted: #0D4A2A;
+      --text:      #ECF4F8;
+      --text-sec:  #6A8A9A;
+      --text-muted:#3A5468;
+      --red:       #FF3B5C;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.75;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Grid background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--surface) 1px, transparent 1px),
+        linear-gradient(90deg, var(--surface) 1px, transparent 1px);
+      background-size: 48px 48px;
+      opacity: 0.5;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Radial glow */
+    body::after {
+      content: '';
+      position: fixed;
+      top: -20vh;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80vw;
+      height: 60vh;
+      background: radial-gradient(ellipse, rgba(0,255,136,0.04) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    /* ── HEADER ── */
+    header {
+      padding: 60px 0 48px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 48px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      color: var(--green);
+      background: rgba(0,255,136,0.06);
+      border: 1px solid rgba(0,255,136,0.2);
+      border-radius: 4px;
+      padding: 5px 10px;
+      margin-bottom: 20px;
+    }
+
+    .badge::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: pulse 1.4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.3; }
+      50%       { opacity: 1;   }
+    }
+
+    h1 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(26px, 5vw, 36px);
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+
+    h1 span { color: var(--green); }
+
+    .meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+    }
+
+    .meta strong { color: var(--text-sec); }
+
+    /* ── SECTION ── */
+    section {
+      margin-bottom: 40px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 28px 32px;
+      transition: border-color 0.2s;
+    }
+
+    section:hover { border-color: rgba(0,255,136,0.15); }
+
+    h2 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2.5px;
+      color: var(--green);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    h2::before {
+      content: '';
+      display: block;
+      width: 3px;
+      height: 14px;
+      background: var(--green);
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    p {
+      color: var(--text-sec);
+      font-size: 15px;
+      margin-bottom: 12px;
+    }
+
+    p:last-child { margin-bottom: 0; }
+
+    /* ── PERMISSION TABLE ── */
+    .perm-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .perm-list li {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      align-items: start;
+      background: var(--elevated);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+    }
+
+    .perm-icon {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--green);
+      background: var(--green-muted);
+      border: 1px solid rgba(0,255,136,0.2);
+      border-radius: 5px;
+      padding: 3px 7px;
+      white-space: nowrap;
+      margin-top: 2px;
+    }
+
+    .perm-text strong {
+      display: block;
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 3px;
+    }
+
+    .perm-text span {
+      color: var(--text-sec);
+      font-size: 13px;
+    }
+
+    /* ── HIGHLIGHT BOX ── */
+    .highlight {
+      background: rgba(0,255,136,0.04);
+      border: 1px solid rgba(0,255,136,0.15);
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-top: 16px;
+      font-size: 14px;
+      color: var(--text-sec);
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .highlight::before {
+      content: '✓';
+      color: var(--green);
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      font-size: 14px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ── CONTACT ── */
+    .contact-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: var(--green);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(0,255,136,0.3);
+      padding-bottom: 2px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .contact-link:hover {
+      color: #fff;
+      border-color: #fff;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding-top: 40px;
+      border-top: 1px solid var(--border);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+    }
+
+    footer a {
+      color: var(--text-sec);
+      text-decoration: none;
+    }
+
+    footer a:hover { color: var(--green); }
+
+    @media (max-width: 520px) {
+      section { padding: 20px 18px; }
+      header  { padding: 40px 0 32px; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="badge">LEGAL DOCUMENT</div>
+    <h1>Privacy Policy<br/><span>NoSignalClub</span></h1>
+    <p class="meta">
+      Last updated: <strong>March 2026</strong> &nbsp;·&nbsp;
+      Effective: <strong>March 2026</strong>
+    </p>
+  </header>
+
+  <section>
+    <h2>Overview</h2>
+    <p>NoSignalClub ("the App") is a personal utility that forwards WhatsApp notifications to an SMS number of your choice — designed for use with feature phones that cannot run WhatsApp.</p>
+    <p>This policy explains what data the App accesses, how it is used, and confirms that <strong style="color:var(--text)">no personal data is collected, stored, or transmitted</strong> to any server or third party.</p>
+  </section>
+
+  <section>
+    <h2>Permissions &amp; Why We Need Them</h2>
+    <ul class="perm-list">
+      <li>
+        <span class="perm-icon">SEND_SMS</span>
+        <div class="perm-text">
+          <strong>Send SMS Messages</strong>
+          <span>Used to forward incoming WhatsApp notification content to the phone number you configure in Settings. SMS messages are sent directly from your device using your own SIM card and carrier.</span>
+        </div>
+      </li>
+      <li>
+        <span class="perm-icon">NOTIF</span>
+        <div class="perm-text">
+          <strong>Notification Listener Access</strong>
+          <span>Required to read the content of incoming WhatsApp notifications. This is the only way to intercept messages without modifying WhatsApp itself. The App reads notification text solely to construct the SMS to be forwarded.</span>
+        </div>
+      </li>
+      <li>
+        <span class="perm-icon">BATTERY</span>
+        <div class="perm-text">
+          <strong>Ignore Battery Optimization (optional)</strong>
+          <span>Allows the background service to remain active. Without this, Android may kill the service to save battery. This permission is optional and does not affect any data.</span>
+        </div>
+      </li>
+    </ul>
+    <div class="highlight">
+      All processing happens entirely on your device. Notification content is never logged, stored in a database, or sent anywhere other than the SMS number you explicitly configure.
+    </div>
+  </section>
+
+  <section>
+    <h2>Data Collection</h2>
+    <p>The App does <strong style="color:var(--text)">not</strong> collect any personal data. Specifically:</p>
+    <ul class="perm-list">
+      <li>
+        <span class="perm-icon">NO</span>
+        <div class="perm-text">
+          <strong>No analytics or tracking</strong>
+          <span>The App contains no analytics SDK, crash reporter, or tracking library of any kind.</span>
+        </div>
+      </li>
+      <li>
+        <span class="perm-icon">NO</span>
+        <div class="perm-text">
+          <strong>No cloud storage</strong>
+          <span>No data is uploaded to any server. There is no backend. The App has no internet permission.</span>
+        </div>
+      </li>
+      <li>
+        <span class="perm-icon">NO</span>
+        <div class="perm-text">
+          <strong>No accounts or registration</strong>
+          <span>The App does not require sign-in, account creation, or any form of identification.</span>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Local Storage</h2>
+    <p>The App stores only two values locally on your device using Android's <code style="font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--green-dim); background:var(--elevated); padding:2px 6px; border-radius:4px;">DataStore</code> API:</p>
+    <ul class="perm-list">
+      <li>
+        <span class="perm-icon">KEY</span>
+        <div class="perm-text">
+          <strong>Target phone number</strong>
+          <span>The SMS destination number you enter in Settings.</span>
+        </div>
+      </li>
+      <li>
+        <span class="perm-icon">KEY</span>
+        <div class="perm-text">
+          <strong>Enabled / disabled state</strong>
+          <span>Whether the forwarding service is currently active.</span>
+        </div>
+      </li>
+    </ul>
+    <div class="highlight">
+      This data never leaves your device and can be cleared at any time by uninstalling the App or clearing App data in Android Settings.
+    </div>
+  </section>
+
+  <section>
+    <h2>Third-Party Services</h2>
+    <p>The App does not integrate any third-party SDKs, advertising networks, payment processors, or external APIs. It is entirely self-contained.</p>
+  </section>
+
+  <section>
+    <h2>Children's Privacy</h2>
+    <p>The App is not directed at children under the age of 13. We do not knowingly collect any information from children. Since no data is collected from any user, this policy applies equally regardless of age.</p>
+  </section>
+
+  <section>
+    <h2>Changes to This Policy</h2>
+    <p>If this policy is updated, the revised version will be published at this URL with an updated effective date. Continued use of the App after changes constitutes acceptance of the updated policy.</p>
+  </section>
+
+  <section>
+    <h2>Contact</h2>
+    <p>If you have any questions about this privacy policy or the App, you can reach us via:</p>
+    <p style="margin-top:12px">
+      <a class="contact-link" href="https://github.com/pushkadev/NoSignalClub/issues" target="_blank" rel="noopener">
+        github.com/pushkadev/NoSignalClub/issues
+      </a>
+    </p>
+  </section>
+
+  <footer>
+    <p>© 2026 NoSignalClub &nbsp;·&nbsp; <a href="https://github.com/pushkadev/NoSignalClub" target="_blank" rel="noopener">GitHub</a></p>
+    <p style="margin-top:6px">This app is open source and free to use.</p>
+  </footer>
+
+</div>
+</body>
+</html>

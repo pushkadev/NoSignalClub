@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.provider.Telephony
 import android.telephony.PhoneNumberUtils
+import android.telephony.SmsManager
 import android.util.Log
 import androidx.core.content.ContextCompat
 import com.smsgateway24.nosignalclub.data.SettingsStore
@@ -23,14 +24,14 @@ class SmsCommandReceiver : BroadcastReceiver() {
 
         if (intent.action != Telephony.Sms.Intents.SMS_RECEIVED_ACTION) return
 
-        val hasPermission = ContextCompat.checkSelfPermission(
+        val hasReceivePermission = ContextCompat.checkSelfPermission(
             context,
             Manifest.permission.RECEIVE_SMS
         ) == PackageManager.PERMISSION_GRANTED
 
-        Log.d("SmsCommandReceiver", "RECEIVE_SMS granted=$hasPermission")
+        Log.d("SmsCommandReceiver", "RECEIVE_SMS granted=$hasReceivePermission")
 
-        if (!hasPermission) return
+        if (!hasReceivePermission) return
 
         val pendingResult = goAsync()
         val appContext = context.applicationContext
@@ -64,14 +65,17 @@ class SmsCommandReceiver : BroadcastReceiver() {
 
                 when (body) {
                     "start" -> {
-                        Log.d("SmsCommandReceiver", "Command START received")
                         store.setEnabled(true)
+                        sendReplySms(appContext, sender, "Service started")
+                        Log.d("SmsCommandReceiver", "Command START processed")
                     }
                     "stop" -> {
-                        Log.d("SmsCommandReceiver", "Command STOP received")
                         store.setEnabled(false)
+                        sendReplySms(appContext, sender, "Service stopped")
+                        Log.d("SmsCommandReceiver", "Command STOP processed")
                     }
                     else -> {
+                        sendReplySms(appContext, sender, "Unknown command")
                         Log.d("SmsCommandReceiver", "Unknown command")
                     }
                 }
@@ -81,6 +85,35 @@ class SmsCommandReceiver : BroadcastReceiver() {
                 pendingResult.finish()
             }
         }
+    }
+
+    private fun sendReplySms(context: Context, phoneNumber: String, message: String) {
+        val hasSendPermission = ContextCompat.checkSelfPermission(
+            context,
+            Manifest.permission.SEND_SMS
+        ) == PackageManager.PERMISSION_GRANTED
+
+        Log.d("SmsCommandReceiver", "SEND_SMS granted=$hasSendPermission")
+
+        if (!hasSendPermission) {
+            Log.d("SmsCommandReceiver", "SEND_SMS permission not granted")
+            return
+        }
+
+        if (phoneNumber.isBlank() || message.isBlank()) {
+            Log.d("SmsCommandReceiver", "Reply SMS skipped because phone number or message is blank")
+            return
+        }
+
+        SmsManager.getDefault().sendTextMessage(
+            phoneNumber,
+            null,
+            message,
+            null,
+            null
+        )
+
+        Log.d("SmsCommandReceiver", "Reply SMS sent to [$phoneNumber]: [$message]")
     }
 
     private fun isSamePhoneNumber(incoming: String, configured: String): Boolean {

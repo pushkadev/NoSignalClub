@@ -1,18 +1,27 @@
 package com.smsgateway24.nosignalclub.ui.screens
 
+import android.Manifest
+import android.content.pm.PackageManager
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Phone
+import androidx.compose.material.icons.filled.Save
+import androidx.compose.material.icons.filled.Security
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
@@ -20,6 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import com.smsgateway24.nosignalclub.R
 import com.smsgateway24.nosignalclub.data.SettingsStore
@@ -36,77 +46,278 @@ fun SettingsScreen(nav: NavController) {
     var number by remember(savedNumber) { mutableStateOf(savedNumber) }
     var saved by remember { mutableStateOf(false) }
 
-    Box(modifier = Modifier.fillMaxSize().background(DeepBlack)) {
+    var receiveSmsGranted by remember {
+        mutableStateOf(
+            ContextCompat.checkSelfPermission(
+                ctx,
+                Manifest.permission.RECEIVE_SMS
+            ) == PackageManager.PERMISSION_GRANTED
+        )
+    }
+
+    var sendSmsGranted by remember {
+        mutableStateOf(
+            ContextCompat.checkSelfPermission(
+                ctx,
+                Manifest.permission.SEND_SMS
+            ) == PackageManager.PERMISSION_GRANTED
+        )
+    }
+
+    val smsPermissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        receiveSmsGranted = permissions[Manifest.permission.RECEIVE_SMS] == true ||
+                ContextCompat.checkSelfPermission(
+                    ctx,
+                    Manifest.permission.RECEIVE_SMS
+                ) == PackageManager.PERMISSION_GRANTED
+
+        sendSmsGranted = permissions[Manifest.permission.SEND_SMS] == true ||
+                ContextCompat.checkSelfPermission(
+                    ctx,
+                    Manifest.permission.SEND_SMS
+                ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(DeepBlack)
+    ) {
         Column(
-            modifier = Modifier.fillMaxSize().padding(horizontal = 20.dp).padding(top = 56.dp, bottom = 32.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 20.dp)
+                .padding(top = 56.dp, bottom = 32.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 IconButton(
                     onClick = { nav.popBackStack() },
-                    modifier = Modifier.size(38.dp).clip(RoundedCornerShape(10.dp)).background(SurfaceCard).border(1.dp, BorderSubtle, RoundedCornerShape(10.dp))
+                    modifier = Modifier
+                        .size(38.dp)
+                        .clip(RoundedCornerShape(10.dp))
+                        .background(SurfaceCard)
+                        .border(1.dp, BorderSubtle, RoundedCornerShape(10.dp))
                 ) {
-                    Icon(Icons.Default.ArrowBack, contentDescription = "Back", tint = TextSecondary, modifier = Modifier.size(18.dp))
+                    Icon(
+                        Icons.Default.ArrowBack,
+                        contentDescription = "Back",
+                        tint = TextSecondary,
+                        modifier = Modifier.size(18.dp)
+                    )
                 }
+
                 Spacer(Modifier.width(14.dp))
+
                 Column {
-                    Text(stringResource(R.string.settings_title), color = TextPrimary, fontSize = 20.sp, fontWeight = FontWeight.Bold)
-                    Text(stringResource(R.string.settings_subtitle), color = TextSecondary, fontSize = 11.sp, letterSpacing = 1.sp)
+                    Text(
+                        stringResource(R.string.settings_title),
+                        color = TextPrimary,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        stringResource(R.string.settings_subtitle),
+                        color = TextSecondary,
+                        fontSize = 11.sp,
+                        letterSpacing = 1.sp
+                    )
                 }
             }
 
             Spacer(Modifier.height(8.dp))
 
-            Text(stringResource(R.string.section_phone_number), color = TextMuted, fontSize = 10.sp, fontWeight = FontWeight.SemiBold, letterSpacing = 2.sp)
+            Text(
+                stringResource(R.string.section_phone_number),
+                color = TextMuted,
+                fontSize = 10.sp,
+                fontWeight = FontWeight.SemiBold,
+                letterSpacing = 2.sp
+            )
 
             Box(
-                modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(12.dp)).background(SurfaceCard)
-                    .border(1.dp, if (number.isNotBlank()) NeonGreen.copy(alpha = 0.3f) else BorderSubtle, RoundedCornerShape(12.dp))
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(SurfaceCard)
+                    .border(
+                        1.dp,
+                        if (number.isNotBlank()) NeonGreen.copy(alpha = 0.3f) else BorderSubtle,
+                        RoundedCornerShape(12.dp)
+                    )
             ) {
                 OutlinedTextField(
                     value = number,
-                    onValueChange = { number = it; saved = false },
-                    placeholder = { Text(stringResource(R.string.number_placeholder), color = TextMuted, fontFamily = FontFamily.Monospace) },
+                    onValueChange = {
+                        number = it
+                        saved = false
+                    },
+                    placeholder = {
+                        Text(
+                            stringResource(R.string.number_placeholder),
+                            color = TextMuted,
+                            fontFamily = FontFamily.Monospace
+                        )
+                    },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
                     leadingIcon = {
-                        Icon(Icons.Default.Phone, contentDescription = null, tint = if (number.isNotBlank()) NeonGreen else TextMuted, modifier = Modifier.size(18.dp))
+                        Icon(
+                            Icons.Default.Phone,
+                            contentDescription = null,
+                            tint = if (number.isNotBlank()) NeonGreen else TextMuted,
+                            modifier = Modifier.size(18.dp)
+                        )
                     },
                     colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = androidx.compose.ui.graphics.Color.Transparent,
-                        unfocusedBorderColor = androidx.compose.ui.graphics.Color.Transparent,
+                        focusedBorderColor = Color.Transparent,
+                        unfocusedBorderColor = Color.Transparent,
                         focusedTextColor = TextPrimary,
                         unfocusedTextColor = TextPrimary,
                         cursorColor = NeonGreen,
-                        focusedContainerColor = androidx.compose.ui.graphics.Color.Transparent,
-                        unfocusedContainerColor = androidx.compose.ui.graphics.Color.Transparent,
+                        focusedContainerColor = Color.Transparent,
+                        unfocusedContainerColor = Color.Transparent
                     ),
                     shape = RoundedCornerShape(12.dp),
-                    textStyle = LocalTextStyle.current.copy(fontFamily = FontFamily.Monospace, fontSize = 16.sp)
+                    textStyle = LocalTextStyle.current.copy(
+                        fontFamily = FontFamily.Monospace,
+                        fontSize = 16.sp
+                    )
                 )
             }
 
-            Text(stringResource(R.string.number_hint), color = TextSecondary, fontSize = 12.sp, lineHeight = 18.sp)
-
-            Spacer(Modifier.height(4.dp))
+            Text(
+                stringResource(R.string.number_hint),
+                color = TextSecondary,
+                fontSize = 12.sp,
+                lineHeight = 18.sp
+            )
 
             Button(
-                onClick = { scope.launch { store.setTargetNumber(number.trim()); saved = true } },
-                modifier = Modifier.fillMaxWidth().height(50.dp),
+                onClick = {
+                    scope.launch {
+                        store.setTargetNumber(number.trim())
+                        saved = true
+                    }
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp),
                 shape = RoundedCornerShape(12.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = NeonGreen, contentColor = DeepBlack)
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = NeonGreen,
+                    contentColor = DeepBlack
+                )
             ) {
                 if (saved) {
                     Icon(Icons.Default.Check, contentDescription = null, modifier = Modifier.size(18.dp))
                     Spacer(Modifier.width(8.dp))
-                    Text(stringResource(R.string.btn_saved), fontWeight = FontWeight.Bold, fontSize = 14.sp)
+                    Text(
+                        stringResource(R.string.btn_saved),
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 14.sp
+                    )
                 } else {
                     Icon(Icons.Default.Save, contentDescription = null, modifier = Modifier.size(18.dp))
                     Spacer(Modifier.width(8.dp))
-                    Text(stringResource(R.string.btn_save), fontWeight = FontWeight.Bold, fontSize = 14.sp)
+                    Text(
+                        stringResource(R.string.btn_save),
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 14.sp
+                    )
+                }
+            }
+
+            Spacer(Modifier.height(8.dp))
+
+            Text(
+                "SMS PERMISSIONS",
+                color = TextMuted,
+                fontSize = 10.sp,
+                fontWeight = FontWeight.SemiBold,
+                letterSpacing = 2.sp
+            )
+
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(SurfaceCard)
+                    .border(1.dp, BorderSubtle, RoundedCornerShape(12.dp))
+                    .padding(16.dp)
+            ) {
+                Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                    PermissionRow(
+                        title = "Receive SMS",
+                        granted = receiveSmsGranted
+                    )
+
+                    PermissionRow(
+                        title = "Send SMS",
+                        granted = sendSmsGranted
+                    )
+
+                    Button(
+                        onClick = {
+                            smsPermissionLauncher.launch(
+                                arrayOf(
+                                    Manifest.permission.RECEIVE_SMS,
+                                    Manifest.permission.SEND_SMS
+                                )
+                            )
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(48.dp),
+                        shape = RoundedCornerShape(10.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = SurfaceDark,
+                            contentColor = TextPrimary
+                        )
+                    ) {
+                        Icon(Icons.Default.Security, contentDescription = null, modifier = Modifier.size(18.dp))
+                        Spacer(Modifier.width(8.dp))
+                        Text("Request SMS permissions", fontWeight = FontWeight.Medium)
+                    }
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun PermissionRow(
+    title: String,
+    granted: Boolean
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            imageVector = if (granted) Icons.Default.Check else Icons.Default.Lock,
+            contentDescription = null,
+            tint = if (granted) NeonGreen else TextMuted,
+            modifier = Modifier.size(18.dp)
+        )
+
+        Spacer(Modifier.width(10.dp))
+
+        Text(
+            text = title,
+            color = TextPrimary,
+            fontSize = 14.sp,
+            modifier = Modifier.weight(1f)
+        )
+
+        Text(
+            text = if (granted) "Granted" else "Not granted",
+            color = if (granted) NeonGreen else TextMuted,
+            fontSize = 12.sp,
+            fontWeight = FontWeight.Medium
+        )
     }
 }

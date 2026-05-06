@@ -23,6 +23,17 @@
     <string name="btn_save">Зберегти</string>
     <string name="btn_saved">Збережено</string>
 
+    <string name="section_sources">ДЖЕРЕЛА</string>
+
+    <string name="section_sms_commands">SMS КОМАНДИ</string>
+    <string name="sms_commands_hint">Надішліть з авторизованого номера для дистанційного керування шлюзом</string>
+    <string name="cmd_start_desc">увімкнути пересилання (всі джерела)</string>
+    <string name="cmd_stop_desc">вимкнути пересилання</string>
+    <string name="cmd_start_wa_desc">увімкнути WhatsApp</string>
+    <string name="cmd_stop_wa_desc">вимкнути WhatsApp</string>
+    <string name="cmd_start_tg_desc">увімкнути Telegram</string>
+    <string name="cmd_stop_tg_desc">вимкнути Telegram</string>
+
     <string name="about_title">Про застосунок</string>
     <string name="section_resources">РЕСУРСИ</string>
     <string name="github_repo_title">GitHub репозиторій</string>

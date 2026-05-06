@@ -75,6 +75,12 @@ class WhatsAppNotificationListener : NotificationListenerService() {
             val enabled = store.enabledFlow.first()
             if (!enabled) return@launch
 
+            val sourceEnabled = when (source) {
+                Source.WA -> store.waEnabledFlow.first()
+                Source.TG -> store.tgEnabledFlow.first()
+            }
+            if (!sourceEnabled) return@launch
+
             val targetNumber = store.targetNumberFlow.first()
             if (targetNumber.isBlank()) return@launch
 

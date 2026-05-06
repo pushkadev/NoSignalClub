@@ -23,6 +23,17 @@
     <string name="btn_save">Speichern</string>
     <string name="btn_saved">Gespeichert</string>
 
+    <string name="section_sources">QUELLEN</string>
+
+    <string name="section_sms_commands">SMS-BEFEHLE</string>
+    <string name="sms_commands_hint">Sende von der autorisierten Nummer, um den Gateway fernzusteuern</string>
+    <string name="cmd_start_desc">Weiterleitung aktivieren (alle Quellen)</string>
+    <string name="cmd_stop_desc">Weiterleitung deaktivieren</string>
+    <string name="cmd_start_wa_desc">WhatsApp aktivieren</string>
+    <string name="cmd_stop_wa_desc">WhatsApp deaktivieren</string>
+    <string name="cmd_start_tg_desc">Telegram aktivieren</string>
+    <string name="cmd_stop_tg_desc">Telegram deaktivieren</string>
+
     <string name="about_title">Über die App</string>
     <string name="section_resources">RESSOURCEN</string>
     <string name="github_repo_title">GitHub-Repository</string>

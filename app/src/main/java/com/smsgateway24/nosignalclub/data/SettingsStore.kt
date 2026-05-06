@@ -16,6 +16,8 @@ class SettingsStore(private val context: Context) {
     companion object {
         private val KEY_TARGET_NUMBER = stringPreferencesKey("target_number")
         private val KEY_ENABLED = booleanPreferencesKey("enabled")
+        private val KEY_WA_ENABLED = booleanPreferencesKey("wa_enabled")
+        private val KEY_TG_ENABLED = booleanPreferencesKey("tg_enabled")
     }
 
     val targetNumberFlow: Flow<String> =
@@ -23,6 +25,12 @@ class SettingsStore(private val context: Context) {
 
     val enabledFlow: Flow<Boolean> =
         context.dataStore.data.map { it[KEY_ENABLED] ?: false }
+
+    val waEnabledFlow: Flow<Boolean> =
+        context.dataStore.data.map { it[KEY_WA_ENABLED] ?: true }
+
+    val tgEnabledFlow: Flow<Boolean> =
+        context.dataStore.data.map { it[KEY_TG_ENABLED] ?: true }
 
     suspend fun setTargetNumber(number: String) {
         context.dataStore.edit { prefs -> prefs[KEY_TARGET_NUMBER] = number }
@@ -32,5 +40,11 @@ class SettingsStore(private val context: Context) {
         context.dataStore.edit { prefs -> prefs[KEY_ENABLED] = enabled }
     }
 
-    // Helper for service: synchronous read is not available, service will use flows or cached value
+    suspend fun setWaEnabled(enabled: Boolean) {
+        context.dataStore.edit { prefs -> prefs[KEY_WA_ENABLED] = enabled }
+    }
+
+    suspend fun setTgEnabled(enabled: Boolean) {
+        context.dataStore.edit { prefs -> prefs[KEY_TG_ENABLED] = enabled }
+    }
 }

@@ -23,6 +23,17 @@
     <string name="btn_save">Enregistrer</string>
     <string name="btn_saved">Enregistré</string>
 
+    <string name="section_sources">SOURCES</string>
+
+    <string name="section_sms_commands">COMMANDES SMS</string>
+    <string name="sms_commands_hint">Envoyez depuis le numéro autorisé pour contrôler la passerelle à distance</string>
+    <string name="cmd_start_desc">activer le transfert (toutes sources)</string>
+    <string name="cmd_stop_desc">désactiver le transfert</string>
+    <string name="cmd_start_wa_desc">activer WhatsApp</string>
+    <string name="cmd_stop_wa_desc">désactiver WhatsApp</string>
+    <string name="cmd_start_tg_desc">activer Telegram</string>
+    <string name="cmd_stop_tg_desc">désactiver Telegram</string>
+
     <string name="about_title">À propos</string>
     <string name="section_resources">RESSOURCES</string>
     <string name="github_repo_title">Dépôt GitHub</string>

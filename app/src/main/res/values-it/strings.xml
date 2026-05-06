@@ -23,6 +23,17 @@
     <string name="btn_save">Salva</string>
     <string name="btn_saved">Salvato</string>
 
+    <string name="section_sources">SORGENTI</string>
+
+    <string name="section_sms_commands">COMANDI SMS</string>
+    <string name="sms_commands_hint">Invia dal numero autorizzato per controllare il gateway da remoto</string>
+    <string name="cmd_start_desc">abilita inoltro (tutte le sorgenti)</string>
+    <string name="cmd_stop_desc">disabilita inoltro</string>
+    <string name="cmd_start_wa_desc">abilita WhatsApp</string>
+    <string name="cmd_stop_wa_desc">disabilita WhatsApp</string>
+    <string name="cmd_start_tg_desc">abilita Telegram</string>
+    <string name="cmd_stop_tg_desc">disabilita Telegram</string>
+
     <string name="about_title">Informazioni</string>
     <string name="section_resources">RISORSE</string>
     <string name="github_repo_title">Repository GitHub</string>

@@ -47,6 +47,8 @@ fun HomeScreen(nav: NavController) {
 
     val enabled by store.enabledFlow.collectAsState(initial = false)
     val targetNumber by store.targetNumberFlow.collectAsState(initial = "")
+    val waEnabled by store.waEnabledFlow.collectAsState(initial = true)
+    val tgEnabled by store.tgEnabledFlow.collectAsState(initial = true)
 
     val smsPermissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -176,6 +178,32 @@ fun HomeScreen(nav: NavController) {
                 }
             }
 
+            // Sources card
+            Text(stringResource(R.string.section_sources), color = TextMuted, fontSize = 10.sp, fontWeight = FontWeight.SemiBold, letterSpacing = 2.sp)
+
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(SurfaceCard)
+                    .border(1.dp, BorderSubtle, RoundedCornerShape(12.dp))
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
+            ) {
+                Column {
+                    SourceToggleRow(
+                        label = "WhatsApp",
+                        checked = waEnabled,
+                        onCheckedChange = { scope.launch { store.setWaEnabled(it) } }
+                    )
+                    HorizontalDivider(color = BorderSubtle, thickness = 0.5.dp)
+                    SourceToggleRow(
+                        label = "Telegram",
+                        checked = tgEnabled,
+                        onCheckedChange = { scope.launch { store.setTgEnabled(it) } }
+                    )
+                }
+            }
+
             Text(stringResource(R.string.section_system_access), color = TextMuted, fontSize = 10.sp, fontWeight = FontWeight.SemiBold, letterSpacing = 2.sp, modifier = Modifier.padding(top = 4.dp))
 
             AccessRow(
@@ -205,6 +233,46 @@ fun HomeScreen(nav: NavController) {
                 Text(stringResource(R.string.btn_about), fontSize = 13.sp)
             }
         }
+    }
+}
+
+@Composable
+private fun SourceToggleRow(
+    label: String,
+    checked: Boolean,
+    onCheckedChange: (Boolean) -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 6.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Box(
+            modifier = Modifier
+                .size(8.dp)
+                .clip(CircleShape)
+                .background(if (checked) NeonGreen else TextMuted)
+        )
+        Spacer(Modifier.width(12.dp))
+        Text(
+            text = label,
+            color = if (checked) TextPrimary else TextSecondary,
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Medium,
+            modifier = Modifier.weight(1f)
+        )
+        Switch(
+            checked = checked,
+            onCheckedChange = onCheckedChange,
+            colors = SwitchDefaults.colors(
+                checkedThumbColor = DeepBlack,
+                checkedTrackColor = NeonGreen,
+                uncheckedThumbColor = TextMuted,
+                uncheckedTrackColor = SurfaceDark,
+                uncheckedBorderColor = BorderSubtle
+            )
+        )
     }
 }
 

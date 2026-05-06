@@ -23,6 +23,17 @@
     <string name="btn_save">Guardar</string>
     <string name="btn_saved">Guardado</string>
 
+    <string name="section_sources">FUENTES</string>
+
+    <string name="section_sms_commands">COMANDOS SMS</string>
+    <string name="sms_commands_hint">Envía desde el número autorizado para controlar la pasarela remotamente</string>
+    <string name="cmd_start_desc">activar reenvío (todas las fuentes)</string>
+    <string name="cmd_stop_desc">desactivar reenvío</string>
+    <string name="cmd_start_wa_desc">activar WhatsApp</string>
+    <string name="cmd_stop_wa_desc">desactivar WhatsApp</string>
+    <string name="cmd_start_tg_desc">activar Telegram</string>
+    <string name="cmd_stop_tg_desc">desactivar Telegram</string>
+
     <string name="about_title">Acerca de</string>
     <string name="section_resources">RECURSOS</string>
     <string name="github_repo_title">Repositorio GitHub</string>

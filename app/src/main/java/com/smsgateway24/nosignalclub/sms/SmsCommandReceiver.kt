@@ -74,6 +74,26 @@ class SmsCommandReceiver : BroadcastReceiver() {
                         sendReplySms(appContext, sender, "Service stopped")
                         Log.d("SmsCommandReceiver", "Command STOP processed")
                     }
+                    "start wa" -> {
+                        store.setWaEnabled(true)
+                        sendReplySms(appContext, sender, "WhatsApp forwarding enabled")
+                        Log.d("SmsCommandReceiver", "Command START WA processed")
+                    }
+                    "stop wa" -> {
+                        store.setWaEnabled(false)
+                        sendReplySms(appContext, sender, "WhatsApp forwarding disabled")
+                        Log.d("SmsCommandReceiver", "Command STOP WA processed")
+                    }
+                    "start tg" -> {
+                        store.setTgEnabled(true)
+                        sendReplySms(appContext, sender, "Telegram forwarding enabled")
+                        Log.d("SmsCommandReceiver", "Command START TG processed")
+                    }
+                    "stop tg" -> {
+                        store.setTgEnabled(false)
+                        sendReplySms(appContext, sender, "Telegram forwarding disabled")
+                        Log.d("SmsCommandReceiver", "Command STOP TG processed")
+                    }
                     else -> {
                         sendReplySms(appContext, sender, "Unknown command")
                         Log.d("SmsCommandReceiver", "Unknown command")

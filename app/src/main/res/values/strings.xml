@@ -25,6 +25,19 @@
     <string name="btn_save">Save</string>
     <string name="btn_saved">Saved</string>
 
+    <!-- HomeScreen sources -->
+    <string name="section_sources">SOURCES</string>
+
+    <!-- SettingsScreen SMS commands reference -->
+    <string name="section_sms_commands">SMS COMMANDS</string>
+    <string name="sms_commands_hint">Send from the authorized number to control the gateway remotely</string>
+    <string name="cmd_start_desc">enable forwarding (all sources)</string>
+    <string name="cmd_stop_desc">disable all forwarding</string>
+    <string name="cmd_start_wa_desc">enable WhatsApp forwarding</string>
+    <string name="cmd_stop_wa_desc">disable WhatsApp forwarding</string>
+    <string name="cmd_start_tg_desc">enable Telegram forwarding</string>
+    <string name="cmd_stop_tg_desc">disable Telegram forwarding</string>
+
     <!-- AboutScreen -->
     <string name="about_title">About</string>
     <string name="section_resources">RESOURCES</string>

@@ -23,6 +23,17 @@
     <string name="btn_save">Сохранить</string>
     <string name="btn_saved">Сохранено</string>
 
+    <string name="section_sources">ИСТОЧНИКИ</string>
+
+    <string name="section_sms_commands">SMS КОМАНДЫ</string>
+    <string name="sms_commands_hint">Отправьте с авторизованного номера для удалённого управления шлюзом</string>
+    <string name="cmd_start_desc">включить пересылку (все источники)</string>
+    <string name="cmd_stop_desc">отключить пересылку</string>
+    <string name="cmd_start_wa_desc">включить WhatsApp</string>
+    <string name="cmd_stop_wa_desc">отключить WhatsApp</string>
+    <string name="cmd_start_tg_desc">включить Telegram</string>
+    <string name="cmd_stop_tg_desc">отключить Telegram</string>
+
     <string name="about_title">О приложении</string>
     <string name="section_resources">РЕСУРСЫ</string>
     <string name="github_repo_title">GitHub репозиторий</string>
